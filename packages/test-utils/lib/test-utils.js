@@ -123,10 +123,31 @@ function keystoneKnexTest(setupKeystoneFn, testFn) {
   };
 }
 
+function keystoneJSONTest(setupKeystoneFn, testFn) {
+  return async function() {
+    const setup = await setupKeystoneFn('json');
+    const { keystone } = setup;
+
+    await keystone.connect();
+
+    return pFinally(
+      testFn({
+        ...setup,
+        create: getCreate(keystone),
+        findById: getFindById(keystone),
+        findOne: getFindOne(keystone),
+        update: getUpdate(keystone),
+      }),
+      () => keystone.disconnect()
+    );
+  };
+}
+
 function multiAdapterRunners() {
   return [
     { runner: keystoneMongoTest, adapterName: 'mongoose' },
     { runner: keystoneKnexTest, adapterName: 'knex' },
+    { runner: keystoneJSONTest, adapterName: 'json' },
   ];
 }
 

@@ -14,12 +14,14 @@
     "start": "cross-env NODE_ENV=production keystone start"
   },
   "dependencies": {
+    "@keystone-alpha/adapter-json": "^0.0.0",
+    "@keystone-alpha/adapter-memory": "^0.0.0",
     "@keystone-alpha/adapter-mongoose": "^2.1.0",
     "@keystone-alpha/app-admin-ui": "^5.0.0",
     "@keystone-alpha/app-graphql": "^6.1.0",
+    "@keystone-alpha/app-static": "^1.0.2",
     "@keystone-alpha/fields": "^7.0.0",
     "@keystone-alpha/keystone": "^6.0.0",
-    "@keystone-alpha/app-static": "^1.0.2",
     "cross-env": "^5.2.0"
   }
 }

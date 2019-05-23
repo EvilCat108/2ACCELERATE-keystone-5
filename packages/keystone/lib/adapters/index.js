@@ -47,7 +47,9 @@ class BaseKeystoneAdapter {
     }
   }
 
-  async postConnect() {}
+  async postConnect() {
+    return [];
+  }
 }
 
 class BaseListAdapter {

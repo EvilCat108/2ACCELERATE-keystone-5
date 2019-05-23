@@ -1,6 +1,7 @@
 import { Implementation } from '../../Implementation';
 import { MongooseFieldAdapter } from '@keystone-alpha/adapter-mongoose';
 import { KnexFieldAdapter } from '@keystone-alpha/adapter-knex';
+import { JSONFieldAdapter } from '@keystone-alpha/adapter-json';
 
 export class Text extends Implementation {
   constructor(path, { isMultiline }) {
@@ -48,14 +49,19 @@ const CommonTextInterface = superclass =>
     }
   };
 
-export class MongoTextInterface extends CommonTextInterface(MongooseFieldAdapter) {
-  addToMongooseSchema(schema) {
-    schema.add({ [this.path]: this.mergeSchemaOptions({ type: String }, this.config) });
-  }
-}
+export const adapters = {
+  mongoose: class MongoTextInterface extends CommonTextInterface(MongooseFieldAdapter) {
+    addToMongooseSchema(schema) {
+      schema.add({ [this.path]: this.mergeSchemaOptions({ type: String }, this.config) });
+    }
+  },
 
-export class KnexTextInterface extends CommonTextInterface(KnexFieldAdapter) {
-  createColumn(table) {
-    return table.text(this.path);
+  knex: class KnexTextInterface extends CommonTextInterface(KnexFieldAdapter) {
+    createColumn(table) {
+      return table.text(this.path);
+    }
+  },
+
+  json: class JSONTextInterface extends CommonTextInterface(JSONFieldAdapter) {
   }
-}
+};
